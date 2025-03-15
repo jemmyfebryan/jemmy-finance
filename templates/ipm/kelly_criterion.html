@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelly Criterion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let dropdowns = document.querySelectorAll(".dropdown-btn");
+
+            dropdowns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    let menu = this.nextElementSibling;
+                    if (menu.style.maxHeight) {
+                        menu.style.maxHeight = null;
+                    } else {
+                        menu.style.maxHeight = menu.scrollHeight + "px";
+                    }
+                    this.classList.toggle("active");
+
+                    // Observe content changes inside the dropdown
+                    observeHeightChanges(menu);
+                });
+            });
+
+            function observeHeightChanges(menu) {
+                let observer = new MutationObserver(() => {
+                    if (menu.style.maxHeight) {
+                        menu.style.maxHeight = menu.scrollHeight + "px";
+                    }
+                });
+    
+                observer.observe(menu, { childList: true, subtree: true, attributes: true });
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Kelly Criterion</h1>
+        <a href="/">Back</a>
+        <div class="cards">
+            <div class="card">
+                <div class="dropdown-btn">Basic Kelly Criterion ▼</div>
+                <ul class="dropdown-menu">
+                    <p>In a system where the return on an investment or a bet is binary, so an interested party either wins or loses all of their bet, the expected growth rate coefficient yields a very specific solution for an optimal betting percentage.</p>
+
+                    <p><i>Example: An investment opportunity has a 50% probability of gaining 150% and a 50% probability of losing everything. We will find the optimal fractional bet for the investment.</i></p>
+                    
+                    <form id="bkc-form">
+                        <label for="bkc-p">Win probability (p):</label>
+                        <input type="number" id="bkc-p" name="bkc-p" step="0.001" placeholder="e.g., 0.5" value="0.5">
+                        <br>
+
+                        <label for="bkc-q">Lose probability (q):</label>
+                        <input type="number" id="bkc-q" name="bkc-q" step="0.001" placeholder="e.g., 0.5" value="0.5">
+                        <br>
+
+                        <label for="bkc-b">Win odds (b):</label>
+                        <input type="number" id="bkc-b" name="bkc-b" step="0.001" placeholder="e.g., 1.5" value="1.5">
+                        <br>
+                        
+                        <button id="bkc-submit" type="submit">Submit</button>
+                    </form>
+                    <p id="bkc-result"></p>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="dropdown-btn">Investment Kelly Criterion ▼</div>
+                <ul class="dropdown-menu">
+                    <p>In a system where the return on an investment or a bet is binary, so an interested party either wins or loses a fixed percentage of their bet, the expected growth rate coefficient yields a very specific solution for an optimal betting percentage.</p>
+                    
+                    <p><i>Example: A futures trade has a 50% probability of making a 75% gain and a 50% probability of losing 50% of the bet. We will find the optimal bankroll fraction to maximize growth.</i></p>
+
+                    <form id="ikc-form">
+                        <label for="ikc-p">Win probability (p):</label>
+                        <input type="number" id="ikc-p" name="ikc-p" step="0.001" placeholder="e.g., 0.5" value="0.5">
+                        <br>
+
+                        <label for="ikc-q">Lose probability (q):</label>
+                        <input type="number" id="ikc-q" name="ikc-q" step="0.001" placeholder="e.g., 0.5" value="0.5">
+                        <br>
+
+                        <label for="ikc-g">Win fraction (g):</label>
+                        <input type="number" id="ikc-g" name="ikc-g" step="0.001" placeholder="e.g., 0.5" value="0.75">
+                        <br>
+
+                        <label for="ikc-l">Loss fraction (l):</label>
+                        <input type="number" id="ikc-l" name="ikc-l" step="0.001" placeholder="e.g., 0.25" value="0.5">
+                        <br>
+                        
+                        <button id="ikc-submit" type="submit">Submit</button>
+                    </form>
+                    <p id="ikc-result"></p>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="dropdown-btn">Multiple Outcomes Kelly Criterion ▼</div>
+                <ul class="dropdown-menu">
+                    <p>Kelly's criterion can be extended to scenarios with multiple mutually exclusive outcomes, such as betting on horse races, by allocating fractions of capital across different bets to maximize long-term growth. This generalized version calculates the optimal proportion for each outcome by considering the probabilities and associated payoffs while ensuring the total allocation does not exceed available capital.</p>
+
+                    <p><i>Example: In a horse race bet, Horse 1 has a 60% win probability with odds of 1.5, Horse 2 has a 30% win probability with odds of 2.5, and Horse 3 has a 10% win probability with odds of 5. We will find the best fraction to bet on these horses to maximize our gains.</i></p>
+                    
+                    <form id="mokc-form">
+                        <label for="outcomes">Outcomes List:</label>
+
+                        <ul id="outcomes-list">
+                            <li onclick="this.remove();" data-value="p=0.6;b=1.5">p=0.6;b=1.5</li>
+                            <li onclick="this.remove();" data-value="p=0.3;b=2.5">p=0.3;b=2.5</li>
+                            <li onclick="this.remove();" data-value="p=0.1;b=5">p=0.1;b=5</li>
+                        </ul>
+
+                        <label for="add-outcome">Add Outcome:</label>
+                        <br>
+                        Outcome Probability (p):
+                        <input type="number" id="outcome-prob" step="0.001" placeholder="e.g., 0.25" value="0.25">
+                        <br>
+                        Outcome Odds (b):
+                        <input type="number" id="outcome-odds" step="0.001" placeholder="e.g., 0.5" value="0.5">
+                        <br>
+                        <button type="button" onclick="addOutcome()">Add</button>
+                        <br>
+                        <br>
+                        <button id="mokc-submit" type="submit">Submit</button>
+                    </form>
+                    <p id="mokc-result"></p>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="dropdown-btn">Multiple Conditions Kelly Criterion ▼</div>
+                <ul class="dropdown-menu">
+                    <p>Kelly's criterion can be extended to scenarios involving multiple independent conditions, such as investment opportunities, by allocating fractions of capital to maximize growth. This generalized version determines the optimal proportion by considering multiple conditions within an investment bet.</p>
+
+                    <p><i>Example: A futures trade has multiple possible outcomes. Normally, the trade has a 45% probability of gaining 50% of the bet and a 45% probability of losing 10% of the bet. However, macroeconomic uncertainty introduces a 10% probability of losing 75% of the bet. We will calculate the optimal bankroll fraction to maximize growth.</i></p>
+                    
+                    <form id="mckc-form">
+                        <label for="conditions">Conditions List:</label>
+
+                        <ul id="conditions-list">
+                            <li onclick="this.remove();" data-value="p=0.45;r=0.5">p=0.45;r=0.5</li>
+                            <li onclick="this.remove();" data-value="p=0.45;r=-0.1">p=0.45;r=-0.1</li>
+                            <li onclick="this.remove();" data-value="p=0.1;r=-0.75">p=0.1;r=-0.75</li>
+                        </ul>
+
+                        <label for="add-condition">Add Condition:</label>
+                        <br>
+                        Condition Probability (p):
+                        <input type="number" id="condition-prob" step="0.001" placeholder="e.g., 0.25" value="0.25">
+                        <br>
+                        Condition Return (r):
+                        <input type="number" id="condition-return" step="0.001" placeholder="e.g., 0.5" value="0.5">
+                        <br>
+                        <button type="button" onclick="addCondition()">Add</button>
+                        <br>
+                        <br>
+                        <button id="mckc-submit" type="submit">Submit</button>
+                    </form>
+                    <p id="mckc-result"></p>
+                </ul>
+            </div>
+        </div>
+        {% include 'footer.html' %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/kelly_criterion/bkc.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/kelly_criterion/ikc.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/kelly_criterion/mokc.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/kelly_criterion/mckc.js') }}"></script>
+
+</body>
+</html>

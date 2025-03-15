@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let dropdowns = document.querySelectorAll(".dropdown-btn");
+
+            dropdowns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    let menu = this.nextElementSibling;
+                    if (menu.style.maxHeight) {
+                        menu.style.maxHeight = null;
+                    } else {
+                        menu.style.maxHeight = menu.scrollHeight + "px";
+                    }
+                    this.classList.toggle("active");
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Financial Application</h1>
+        <div class="cards">
+            <!-- <div class="card">
+                <div class="dropdown-btn">📊 Corporate Finance ▼</div>
+                <ul class="dropdown-menu">
+                    <li><a href="/cf/capital-structure">Capital Structure</a></li>
+                    <li><a href="/cf/financial-statements-analysis">Financial Statements Analysis</a></li>
+                    <li><a href="/cf/risk-management">Risk Management</a></li>
+                </ul>
+            </div> -->
+            
+            <div class="card">
+                <div class="dropdown-btn">📈 Investment & Portfolio Management ▼</div>
+                <ul class="dropdown-menu">
+                    <li><a href="/ipm/asset_allocation_optimizer">Asset Allocation Optimizer</a></li>
+                    <li><a href="/ipm/kelly_criterion">Kelly Criterion</a></li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <div class="dropdown-btn">Coming Soon... ▼</div>
+                <ul class="dropdown-menu">
+                    <li><a href="/#">Coming Soon...</a></li>
+                </ul>
+            </div>
+
+        </div>
+        {% include 'footer.html' %}
+    </div>
+
+
+</body>
+</html>

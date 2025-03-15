@@ -1,0 +1,61 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env/
+.venv/
+
+# Flask-specific files
+instance/
+*.log
+*.sqlite3
+*.db
+config.py
+
+# Environment variables and secrets
+.env
+*.env
+secrets.json
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+
+# Package management
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# Migrations (if using Flask-Migrate)
+migrations/
+
+# Pytest / Coverage
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Static and media files
+staticfiles/
+media/
+
+# Celery beat schedule
+celerybeat-schedule
+
+# Temporary files
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db

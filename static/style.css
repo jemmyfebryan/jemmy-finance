@@ -1,0 +1,153 @@
+/* Default Light Mode */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    color: black;
+    overflow-x: hidden;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures full-page height */
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.dropdown-btn {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.dropdown-btn.active {
+    color: blue;
+}
+
+.dropdown-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.dropdown-menu li {
+    padding: 8px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.dropdown-menu a {
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin: 5px 0;
+    background-color: #f9f9f9;
+}
+li.selected {
+    background-color: #b3d4fc;
+    font-weight: bold;
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    background-color: #f8f8f8;
+    font-size: 14px;
+    border-top: 1px solid #ccc;
+    position: relative; /* Prevents absolute positioning issues */
+    bottom: 0;
+    width: 100%;
+    border-radius: 20px; /* Rounded corners */
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #181818;
+        color: white;
+        overflow-x: hidden;
+    }
+
+    .card {
+        background: #242424;
+        box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown-btn.active {
+        color: lightblue;
+    }
+
+    .dropdown-menu li {
+        border-top: 1px solid #444;
+    }
+
+    .dropdown-menu a {
+        color: white;
+    }
+    
+    li {
+        border: 1px solid #555;
+        background-color: #222; /* Darker background */
+        color: white;
+    }
+
+    li.selected {
+        background-color: #2979ff; /* Brighter blue highlight */
+    }
+    
+    footer {
+        text-align: center;
+        background-color: #121212; 
+        color: #ffffff; 
+        font-size: 14px;
+        border-top: 1px solid #333; 
+        position: relative; 
+        bottom: 0;
+        width: 100%;
+        border-radius: 20px; /* Rounded corners */
+    }
+    
+    footer a {
+        text-decoration: none;
+        color: #4da6ff;
+        font-weight: bold;
+    }
+    
+    footer a:hover {
+        color: #80c1ff;
+    }
+    
+    
+}
