@@ -1,0 +1,84 @@
+
+<style>
+    .indicator-container {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        padding: 10px;
+        background-color: #2c2c2c;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .indicator {
+        padding: 5px;
+        background-color: #3a3a3a;
+        border-radius: 5px;
+        font-size: 15px;
+        color: #f4f4f4;
+    }
+    .indicator span {
+        font-size: 15px;
+        font-weight: bold;
+        color: #f4f4f4; /* Light text color for the value */
+    }
+</style>
+
+<div class="indicator-container">
+    <div class="indicator">
+        <span id="fearAndGreed">Fear and Greed Index: -</span>
+    </div>
+    <div class="indicator">
+        <span id="volatility">Volatility Index: -</span>
+    </div>
+    <div class="indicator">
+        <span id="consumer">Consumer Confidence: -</span>
+    </div>
+</div>
+
+<script>
+    // Fetch the market indicator values automatically when the page loads
+    window.onload = async function() {
+        try {
+            const response = await fetch('/get_fear_and_greed');
+            const data = await response.json();
+                
+            if (data && data.fearAndGreed !== undefined && data.volatility !== undefined && data.consumer !== undefined) {
+                document.getElementById('fearAndGreed').innerText = 'Fear and Greed Index: ' + data.fearAndGreed;
+                document.getElementById('volatility').innerText = 'Volatility Index: ' + data.volatility;
+                document.getElementById('consumer').innerText = 'Consumer Confidence: ' + data.consumer;
+
+                // Apply the gradient color based on the values
+                updateTextColor('fearAndGreed', data.fearAndGreed);
+                updateTextColor('volatility', data.volatility);
+                updateTextColor('consumer', data.consumer);
+            }
+        } catch (error) {
+            console.error('Error fetching market indicators:', error);
+        }
+    };
+
+    // Function to update the text color based on the value
+    function updateTextColor(elementId, value) {
+        const element = document.getElementById(elementId);
+        const color = getColorForValue(value);
+        element.style.color = color;
+    }
+
+    // Map the value to a color gradient from red to green
+    function getColorForValue(value) {
+        // Ensure value is between 0 and 100
+        const clampedValue = Math.max(0, Math.min(100, value));
+        
+        // Calculate the red and green values for the gradient
+        const red = 255 - Math.floor(clampedValue * 2.55); // 0 for 100, 255 for 0
+        const green = Math.floor(clampedValue * 2.55); // 0 for 0, 255 for 100
+
+        // Return the RGB color
+        return `rgb(${red}, ${green}, 0)`; // RGB from red to green
+    }
+</script>

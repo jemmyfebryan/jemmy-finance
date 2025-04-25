@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Unrecoverable Cost</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let dropdowns = document.querySelectorAll(".dropdown-btn");
+
+            dropdowns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    let menu = this.nextElementSibling;
+                    if (menu.style.maxHeight) {
+                        menu.style.maxHeight = null;
+                    } else {
+                        menu.style.maxHeight = menu.scrollHeight + "px";
+                    }
+                    this.classList.toggle("active");
+
+                    // Observe content changes inside the dropdown
+                    observeHeightChanges(menu);
+                });
+            });
+
+            function observeHeightChanges(menu) {
+                let observer = new MutationObserver(() => {
+                    if (menu.style.maxHeight) {
+                        menu.style.maxHeight = menu.scrollHeight + "px";
+                    }
+                });
+    
+                observer.observe(menu, { childList: true, subtree: true, attributes: true });
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Property Unrecoverable Cost</h1>
+        <a href="/">Back</a>
+        <div class="cards">
+            <div class="card">
+                <div class="dropdown-btn">Fixed Assumptions ▼</div>
+                <ul class="dropdown-menu">
+                    <p>When deciding whether to own or rent a property, the unrecoverable costs of both options must be compared. The assumptions are as follows: for owning a property, the unrecoverable costs include property tax, maintenance costs, and the cost of capital. For renting a property, the only unrecoverable cost is the rent itself. In this scenario, the property tax, maintenance costs, and cost of capital are fixed at a certain percentage.</p>
+
+                    <p><i>Example: A property valued at $500,000 is being rented for $15,000 per month. The property tax is 1% of the property value, the maintenance cost is 1% of the property value, and the cost of capital is 3% of the property value. We will determine whether owning or renting the property is the better option.</i></p>
+                    
+                    <form id="puc-fa-form">
+                        <label for="puc-fa-pv">Property Value:</label>
+                        <input type="number" id="puc-fa-pv" name="puc-fa-pv" step="0.1" placeholder="e.g., 500000" value="500000">
+                        <br>
+
+                        <label for="puc-fa-pt">Property Tax (%):</label>
+                        <input type="number" id="puc-fa-pt" name="puc-fa-pt" step="0.1" placeholder="e.g., 1" value="1">
+                        <br>
+
+                        <label for="puc-fa-mc">Maintenance Cost (%):</label>
+                        <input type="number" id="puc-fa-mc" name="puc-fa-mc" step="0.1" placeholder="e.g., 1" value="1">
+                        <br>
+
+                        <label for="puc-fa-coc">Cost of Capital (%):</label>
+                        <input type="number" id="puc-fa-coc" name="puc-fa-coc" step="0.1" placeholder="e.g., 3" value="3">
+                        <br>
+
+                        <label for="puc-fa-rc">Rental Cost (monthly):</label>
+                        <input type="number" id="puc-fa-rc" name="puc-fa-rc" step="0.1" placeholder="e.g., 15000" value="15000">
+                        <br>
+                        
+                        <button id="puc-fa-submit" type="submit">Submit</button>
+                    </form>
+                    <p id="puc-fa-result"></p>
+                </ul>
+            </div>
+        </div>
+        {% include 'footer.html' %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/property_unrecoverable_cost/puc_fa.js') }}"></script>
+
+</body>
+</html>

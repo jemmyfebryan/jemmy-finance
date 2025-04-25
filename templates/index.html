@@ -26,6 +26,7 @@
 <body>
     <div class="container">
         <h1>Financial Application</h1>
+        {% include 'dashboard.html' %}
         <div class="cards">
             <!-- <div class="card">
                 <div class="dropdown-btn">📊 Corporate Finance ▼</div>
@@ -41,6 +42,13 @@
                 <ul class="dropdown-menu">
                     <li><a href="/ipm/asset_allocation_optimizer">Asset Allocation Optimizer</a></li>
                     <li><a href="/ipm/kelly_criterion">Kelly Criterion</a></li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <div class="dropdown-btn">💵 Personal Finance ▼</div>
+                <ul class="dropdown-menu">
+                    <li><a href="/pf/property_unrecoverable_cost">Property Unrecoverable Cost</a></li>
                 </ul>
             </div>
             
